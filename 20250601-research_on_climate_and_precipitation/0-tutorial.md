@@ -4,5 +4,5 @@
 ***bold italic***
 ~~strikethrough~~
 superscript^2^
-subscript~2~
+superscript^2^ / subscript~2~
 `verbatim code`
