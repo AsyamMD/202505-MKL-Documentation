@@ -1,1 +1,46 @@
-# Lorem ipsum dolor sit amet
+# Environment Set-Up
+
+The first thing to do in this research is to set-up the environment. For start, we need to initiate WSL.
+
+## Windows Subsystem for Linux (WSL)
+
+The default setting for any Windows system is disabled. We need to enable the feature through the setting. Search `windows features` on the search bar and open the control panel setting showed up. On the control panel, scrol down until you find `Windows Subsystem for Linux` and checked the box. Click Ok and the system will ask you to restart the system.
+
+![Searching Windows Features setting on Windows search bar](../Images/001-Windows_Features.png)
+
+![Enabling WSL in the Windows Features setting](../Images/002-Turn_on_WSL.png)
+
+After enabling WSL, we need to restart the system. Do not forget the save all working progress before restarting. Then we need to open Terminal and type `wsl --update` to update the current wsl version. Wait until it finishes. The next step is to install Linux distribution or distro. There are many options to choose, but in this documentation we will install Ubuntu. We can install Ubuntu through Terminal by typing `wsl --install Ubuntu` or just searched up on the Microsoft Store to install the distro.
+
+![Updating and Installing Linux distro on the Terminal](../Images/003-First-setup-WSL.png)
+
+To start up Ubuntu, we can either type `ubuntu` on the Terminal or click it on the start menu. It then will ask us to set up the username and password. The password will be required if we use `sudo` on the Ubuntu. For start, we will update and upgrade the repository by typing this code on the Terminal:
+
+```
+# this line is to update the repository
+sudo apt update 
+
+# this line is to upgrade all the upgradable packages
+sudo apt upgrade 
+```
+
+After that, we will install several packages that we need in this research: NetCDF, NCView, CDO, NCO, Anaconda (python), and Java. To install the packages, type this code:
+
+```
+# installing packages through aptitude
+sudo apt install netcdf-dev ncview cdo nco default-jre
+
+# these lines is to download and install Anaconda
+curl -O https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
+bash ~/Anaconda3-2024.10-1-Linux-x86_64.sh
+```
+
+Feel free to explore through the Ubuntu to familiarize with the system!
+
+## Visual Studio Code
+
+This step is not necessary for this research, but Visual Studio Code (VS Code) is a powerful tool. We can integrate WSL directory on VS Code, so that we could modify and run our code seamlessly. To install it, just search `VS Code` on Microsoft Store. After that we need to initiate it by typing `code .` on Ubuntu terminal.
+
+![Searching Visual Studio Code on Microsoft Store](../Images/004-Installing_VS_Code.png)
+
+Just play around the VS Code to familiarize yourself with the workflow and look up any documentation on the internet!
