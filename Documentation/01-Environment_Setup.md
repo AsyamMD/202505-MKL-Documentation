@@ -44,3 +44,21 @@ This step is not necessary for this research, but Visual Studio Code (VS Code) i
 ![Searching Visual Studio Code on Microsoft Store](../Images/004-Installing_VS_Code.png)
 
 Just play around the VS Code to familiarize yourself with the workflow and look up any documentation on the internet!
+
+## MatLab
+
+MatLab is a powerful versatile tool for data analysis and visualization, although it is not free nor open-source. If your university provides a license, you can ask them on how to acquire it. In this research, our university ITS provides a education license for MatLab. One should register for an account on the [MatLab website](https://www.mathworks.com/), and do not forget to use your university email (the one that has the domain of your uni, for ITS students/lecturers it is (at)its.ac.id). After activating the account, you can download the installer on the [website](https://matlab.mathworks.com/). Fortunately, Mathworks provides support for every operating system: Windows, MacOS (Intel and Apple Silicon), and Linux.
+
+![Downloading MatLab installer on the Mathworks website](../Images/005-Downloading_MatLab.png)
+
+The latest version as of June 2025 was R2025a, which has support for Copilot AI that we can use to ask for our code. To install the software, please follow the instructions on the website accordingly. The installer will ask you to log in to your account. 
+
+![MatLab installer opening page](../Images/006-Installer_MatLab.png)
+
+When it ask what to install, you should at least select MatLab and Mapping Toolbox. After the installation is complete, you can open MatLab and start coding! Just search up any example on the internet and familiarize yourself with the system!
+
+![Choosing what to install... part 1](../Images/007-Choose_MatLab.png)
+
+![Choosing what to install... part 2](../Images/008-Choose_Mapping.png)
+
+![MatLab opening page](../Images/009-MatLab_Opening_Page.png)
