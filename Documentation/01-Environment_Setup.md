@@ -51,7 +51,7 @@ MatLab is a powerful versatile tool for data analysis and visualization, althoug
 
 ![Downloading MatLab installer on the Mathworks website](../Images/005-Downloading_MatLab.png)
 
-The latest version as of June 2025 was R2025a, which has support for Copilot AI that we can use to ask for our code. To install the software, please follow the instructions on the website accordingly. The installer will ask you to log in to your account. 
+The latest version as of June 2025 was R2025a, which has support for Copilot AI that we can use to ask help for our code. To install the software, please follow the instructions on the website accordingly. The installer will ask you to log in to your account. 
 
 ![MatLab installer opening page](../Images/006-Installer_MatLab.png)
 
