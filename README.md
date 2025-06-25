@@ -1,1 +1,1 @@
-This repository serves as documentation for my past, current, and future research, mainly focuses on climate science.
+This repository serves as documentation for current *Manajemen Kualitas Lingkungan* laboratory's research on the impact of climate change to precipitation. Feel free to ask us on the discussion section!
