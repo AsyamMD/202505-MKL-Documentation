@@ -26,7 +26,7 @@ Replace `<PERSONAL-ACCESS-TOKEN>` with the personal access token that you can fi
 
 Through the CDS, we can download the dataset with our desired region, time period, and variables. The ERA5-Land dataset has a resolution of 0.1° and covers the whole globe. Since the only daily datasets are for the three temperature variables, we decided to download the hourly datasets for both precipitation and temperature variables. The variables that we will download are: (1) **2m_temperature** as the mean temperature, and (2) **total_precipitation** as the precipitation. The time period that we will download is from 1950 to 2024, and the region is Southeast Asia with a bounding box of `[10, 90, -15, 145]` (north, west, south, east). The downloaded dataset filename will look like randomly generated, thus we will rename it to `era5-land_<variable>_<year>.nc` for easier identification. The following code is an example of how to download the dataset using the CDS API:
 
-```
+```python
 # Downloads ERA5-Land data in parallel using cdsapi
 
 import os
@@ -78,4 +78,28 @@ if __name__ == "__main__":
 
 ```
 
-You can find the full download script on [Scripts directory](../Scripts/000-1-era5land-download.py). On the first lines, you can adjust what period of year you wanted to download. Below that is the region clipper. `VNAME` is the array of our variables: temperature and precipitation. Since we needed hourly data from 1950 to 2024, we need to specify the hours, which are full 24 hours or an hourly timestep. The script will try to iterate from variable > year > month. This python script is not limited to ERA5-Land hourly single pressure dataset, one can modify this to request for another dataset, ERA5 hourly pressure levels for example.
+You can find the full download script on the [Scripts directory](../Scripts/000-1-era5land-download.py). On the first lines, you can adjust what period of year you wanted to download. Below that is the region clipper. `VNAME` is the array of our variables: temperature and precipitation. Since we needed hourly data from 1950 to 2024, we need to specify the hours, which are full 24 hours or an hourly timestep. The script will try to iterate from variable > year > month. The script will also request 12 data in parallel, to speed up the request. This python script is not limited to ERA5-Land hourly single pressure dataset, one can modify this to request for another dataset, ERA5 hourly pressure levels for example. Be patient throughout the process, since it will take a long time to request all of the data. One request of data will take roughly around 45 minutes to 1 hour, depending on the server load. The script will automatically check if the file already exists, so it will not download the same file again. But be sure to check unfinished downloads if you were to restart the script, since it will not resume the download if the file already exists. 
+
+## EC-Earth3 CMIP6 Climate Projection Data
+
+EC-Earth3 is a coupled climate model that is used in the CMIP6 project. The dataset is available for free on the [Earth System Grid Federation (ESGF) website](https://esgf-node.llnl.gov/projects/cmip6/). Officially, to download the dataset, one must first sign up for a free account on the [ESGF website](https://esgf.github.io/nodes.html). Make sure you choose the COG not the Metagrid, since we need the OpenID authentication to download the dataset. In this documentation, we will extract the download links generated from the ESGF, since downloading using `wget` takes too long and is not efficient. Fortunately, we do not have to sign up for an account to request the `wget` script, so feel free to skip the registration step. 
+
+The search filter is on the west or left side of the page. For this research, we will search for the following filters: 
+1. **Identifier** > **Source ID** > **'EC-Earth3'**
+2. **Identifier** > **Experiment ID** > **'historical'**, **'ssp126'**, **'ssp245'**, **'ssp370'**, **'ssp585'**
+3. **Labels** > **Variant Labbel** > **'r1i1p1f1'**
+4. **Classification** > **Frequency** > **'day'**
+5. **Classification** > **Variable ID** > **'pr'**, **'tas'**, **'tasmax'**, **'tasmin'**
+
+You can also save the search filter by clicking the "Save Search" button on the top right corner of the page. Select all of the datasets that you want to download, and add to cart. Move on to the cart page, and select the datasets you want to download the script for. To tidy up the process, let's divide the datasets by its Experiment ID. Select up the datasets, change the download option to `wget` on the bottom page, and press download. The website will generate a script that you can download. 
+
+![ESGF search page](../Images/012-ESGF-Search-Page.png)<center>*ESGF search page*</center>
+
+If you decided to download the dataset using `wget`, you can type `wget -H <script_name>.sh` on the terminal to download the script. It will ask you your OpenID username and password, which you can find on the ESGF account page. Before initiating the download, type `chmod +x <script_name>.sh` to make the script executable. After that, you can run the script by typing `bash <script_name>.sh`. The script will download the dataset to the current directory. 
+
+In my experience, downloading the dataset using `wget` is not efficient, since it will take a long time to download the dataset. Thus, I decided to extract the download links from the script and download them using a bash script. The following is an example of how to extract the download links from the script:
+
+```shell
+sudo apt update
+cdo -O -L mulc,3600 pr_era5land_1950-2024.nc pr_era5land_1950-2024_hourly.nc
+```

@@ -16,7 +16,7 @@ After enabling WSL, we need to restart the system. Do not forget the save all wo
 
 To start up Ubuntu, we can either type `ubuntu` on the Terminal or click it on the start menu. It then will ask us to set up the username and password. The password will be required if we use `sudo` on the Ubuntu. For start, we will update and upgrade the repository by typing this code on the Terminal:
 
-```
+```shell
 # this line is to update the repository
 sudo apt update 
 
@@ -26,7 +26,7 @@ sudo apt upgrade
 
 After that, we will install several packages that we need in this research: NetCDF, NCView, CDO, NCO, Anaconda (python), and Java. To install the packages, type this code:
 
-```
+```shell
 # installing packages through aptitude
 sudo apt install netcdf-dev ncview cdo nco default-jre
 

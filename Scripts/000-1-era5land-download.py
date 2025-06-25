@@ -52,7 +52,7 @@ def download_era5_data(cds_client_instance, dataset_name, api_var_name, short_va
     os.makedirs(variable_specific_output_dir, exist_ok=True)
     
     # Filename includes variable, year, and month for clarity
-    netcdf_filename = f"{short_var_name}_{year_str}_{month_str}.nc"
+    netcdf_filename = f"era5land_{short_var_name}_{year_str}_{month_str}.nc"
     netcdf_filepath = os.path.join(variable_specific_output_dir, netcdf_filename)
 
     if os.path.isfile(netcdf_filepath):
