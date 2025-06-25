@@ -24,5 +24,58 @@ Replace `<PERSONAL-ACCESS-TOKEN>` with the personal access token that you can fi
 
 ![CDS API personal token page](../Images/011-CDS_API_Token.png)<center>*CDS API personal access token page*</center>
 
-Through the CDS, we can download the dataset with our desired region, time period, and variables. The ERA5-Land dataset has a resolution of 0.1° and covers the whole globe. Since the only daily datasets are for the three temperature variables, we decided to download the hourly datasets for both precipitation and temperature variables. The variables that we will download are: (1) **2m_temperature** as the mean temperature, and (2) **total_precipitation** as the precipitation. The time period that we will download is from 1950 to 2024, and the region is Southeast Asia with a bounding box of `[-10, 90, 30, 150]` (north, west, south, east). The downloaded dataset filename will look like randomly generated, thus we will rename it to `era5-land_<variable>_<year>.nc` for easier identification. The following code is an example of how to download the dataset using the CDS API:
+Through the CDS, we can download the dataset with our desired region, time period, and variables. The ERA5-Land dataset has a resolution of 0.1° and covers the whole globe. Since the only daily datasets are for the three temperature variables, we decided to download the hourly datasets for both precipitation and temperature variables. The variables that we will download are: (1) **2m_temperature** as the mean temperature, and (2) **total_precipitation** as the precipitation. The time period that we will download is from 1950 to 2024, and the region is Southeast Asia with a bounding box of `[10, 90, -15, 145]` (north, west, south, east). The downloaded dataset filename will look like randomly generated, thus we will rename it to `era5-land_<variable>_<year>.nc` for easier identification. The following code is an example of how to download the dataset using the CDS API:
 
+```
+# Downloads ERA5-Land data in parallel using cdsapi
+
+import os
+import cdsapi
+import concurrent.futures
+from random import randint
+from time import sleep
+
+def download_era5_data(cds, dataset, var, short, year, month, days, times, area, out_dir):
+    path = os.path.join(out_dir, short, f"{short}_{year}_{month}.nc")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    if os.path.isfile(path):
+        print(f"File {path} exists. Skipping.")
+        return
+    params = {
+        "variable": [var], "year": year, "month": month, "day": days, "time": times,
+        "format": "netcdf", "area": area, "download_format": "unarchived"
+    }
+    for attempt in range(3):
+        try:
+            cds.retrieve(dataset, params, path)
+            print(f"Downloaded: {path}")
+            return
+        except Exception as e:
+            wait = randint(30, 180) * (attempt + 1)
+            print(f"Error: {e}. Retrying in {wait}s...")
+            sleep(wait)
+    print(f"Failed: {path}")
+
+if __name__ == "__main__":
+    VNAME = {'2m_temperature': 'tas', 'total_precipitation': 'pr'}
+    MONTHS = [f"{m:02d}" for m in range(1, 13)]
+    DAYS = [f"{d:02d}" for d in range(1, 32)]
+    TIMES = [f"{h:02d}:00" for h in range(24)]
+    AREA = [10, 90, -15, 145]
+    DATASET = "reanalysis-era5-land"
+    OUTDIR = "."
+    YS, YE = 1966, 1966
+
+    cds = cdsapi.Client()
+    tasks = [
+        (cds, DATASET, v, s, f"{y:04d}", m, DAYS, TIMES, AREA, OUTDIR)
+        for v, s in VNAME.items()
+        for y in range(YS, YE + 1)
+        for m in MONTHS
+    ]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex:
+        ex.map(lambda args: download_era5_data(*args), tasks)
+
+```
+
+You can find the full download script on [Scripts directory](../Scripts/000-1-era5land-download.py). On the first lines, you can adjust what period of year you wanted to download. Below that is the region clipper. `VNAME` is the array of our variables: temperature and precipitation. Since we needed hourly data from 1950 to 2024, we need to specify the hours, which are full 24 hours or an hourly timestep. The script will try to iterate from variable > year > month. This python script is not limited to ERA5-Land hourly single pressure dataset, one can modify this to request for another dataset, ERA5 hourly pressure levels for example.
