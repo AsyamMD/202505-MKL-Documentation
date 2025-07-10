@@ -99,7 +99,36 @@ If you decided to download the dataset using `wget`, you can type `wget -H <scri
 
 In my experience, downloading the dataset using `wget` is not efficient, since it will take a long time to download the dataset. Thus, I decided to extract the download links from the script and download them using a bash script. The following is an example of how to extract the download links from the script:
 
-```shell
-sudo apt update
-cdo -O -L mulc,3600 pr_era5land_1950-2024.nc pr_era5land_1950-2024_hourly.nc
+```sh
+#!/bin/bash
+
+# Path to your script
+SCRIPT_FILE="ec-earth3-hist.sh"
+
+# Extract the content of the download_files variable
+# This sed command finds the start and end markers of the heredoc
+file_list_content=$(sed -n '/^download_files="$(cat <<EOF--dataset.file.url.chksum_type.chksum$/,/^EOF--dataset.file.url.chksum_type.chksum$/{
+    /EOF--dataset.file.url.chksum_type.chksum$/d
+    /^download_files/d
+    p
+}' "$SCRIPT_FILE")
+
+# Process each line to extract the URL
+echo "$file_list_content" | while IFS= read -r line; do
+    # Skip empty lines or lines that are not data entries
+    if [[ -z "$line" || "$line" =~ ^# ]]; then
+        continue
+    fi
+    # Use awk to extract the URL (the 2nd field when splitting by single quote as delimiter,
+    # which becomes the 4th field in awk if FS='\'')
+    url=$(echo "$line" | awk -F"'" '{print $4}')
+    echo "$url"
+done > idm_url_list.txt
+
+echo "URLs extracted to idm_url_list.txt"
+
 ```
+
+Then you can import the txt file to any download manager, such as Internet Download Manager (IDM) or Aria2, to download the datasets. If you happen to use WSL, I recommend using IDM, since it was faster than using any package inside the WSL.
+
+The workflow of downloading the EC-Earth3 dataset is applicable to any CMIP6 dataset, as long as you can find the dataset on the ESGF website. You can also use the same method to download other datasets, such as CMIP5 or CORDEX datasets, by adjusting the search filters accordingly.
