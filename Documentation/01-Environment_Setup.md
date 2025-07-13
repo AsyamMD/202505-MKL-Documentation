@@ -4,6 +4,8 @@ The first thing to do in this research is to set-up the environment. For start, 
 
 ## Windows Subsystem for Linux (WSL)
 
+### WSL2
+--------
 The default setting for any Windows system is disabled. We need to enable the feature through the setting. Search `windows features` on the search bar and open the control panel setting showed up. On the control panel, scrol down until you find `Windows Subsystem for Linux` and checked the box. Click Ok and the system will ask you to restart the system.
 
 ![Searching Windows Features setting on Windows search bar](../Images/001-Windows_Features.png)
@@ -36,6 +38,12 @@ bash ~/Anaconda3-2024.10-1-Linux-x86_64.sh
 ```
 
 Feel free to explore through the Ubuntu to familiarize with the system!
+
+### WSL1
+--------
+If you are using WSL1, you can still follow the steps above, but we need to revert the version of the WSL2 to WSL1. Firstly, we need to disable `Hyper-V` and `Virtual Machine Platform` on the Windows Features setting, just like when we enabled WSL2. After that, we need to open PowerShell, then type `wsl --shutdown` to shut down the WSL2. Then we can type `wsl --set-default-version 1` to set the default version to WSL1. The computer will process it. Take a note that this process will take a while, so be patient. To verify that the WSL version is set to WSL1, we can type `wsl --list --verbose` on PowerShell. It will show the list of installed Linux distro and their version. If it shows `WSL 1`, then we are good to go.
+
+Since my background is nothing related to computer science, I do not really understand the difference between WSL1 and WSL2 deeply. But as for my experience in doing the same Shell scripting in the same directory, WSL2 take 110 minutes while WSL1 only take 60 minutes. So it almost 50% faster in WSL1. If you happen to work in the Windows directory, WSL2 will take longer time than WSL1. But if you work in the Linux directory, WSL2 will be faster than WSL1. So it is up to you to choose which one is better for you.
 
 ## Visual Studio Code
 
