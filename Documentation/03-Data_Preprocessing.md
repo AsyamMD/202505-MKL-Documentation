@@ -61,7 +61,8 @@ yinc     = 0.1
 
 This will clip the datasets to the region of interest, which is Indonesia. The horizontal resolution is 0.1 degrees, which is approximately 11 km at the equator. The grid will cover the region from 90°E to 145°E and from 15°S to 10°N.
 
-## SA-OBS
+### SA-OBS
+------------
 
 Since SA-OBS is obtained from a different source than ESGF, we will preprocess it separately. The folder is `sa-obs`, in which had two subfolders: `1-data` and `2-stderr`. The `1-data` folder contains the raw data, while the `2-stderr` folder contains the standard error data. Below is the script to preprocess the SA-OBS data, take note that the script is located on the top-level folder, not in the `sa-obs` folder:
 
@@ -95,7 +96,8 @@ ncrename -O -v rr,pr "./00-history/sa-obs_pr_1981-2017.nc"
 
 We will unify all the datasets' missing value to NaN. The variable names will be standardized to `pr`, `tg`, `tn`, and `tx` for precipitation, temperature (mean), minimum temperature, and maximum temperature, respectively.
 
-## ERA5-Land
+### ERA5-Land
+-------------
 
 Compared to other datasets, the ERA5-Land is in hourly frequency, as they do not provide daily sum precipitation. Inside the `era5-land` folder, there will be two subfolder named `pr` and `tas`, which contains the precipitation and temperature datasets, respectively. The script to preprocess the ERA5-Land data is as follows:
 
@@ -240,7 +242,8 @@ cdo -O -L -P 12 -f nc4 -z zstd,13 --shuffle \
     "./00-history/era5-land_tn_1950-2024.nc" "./00-history/era5-land_tn_1981-2017.nc"
 ```
 
-## CMIP6 ESGF Datasets
+### CMIP6 ESGF Datasets
+-------------
 
 Just as previously mentioned, the ESGF datasets are stored in each scenario folder, which had the same structure. Since the datasets are too many, we will create a single bash script to preprocess all of the datasets. The script will be placed in the top-level folder, and it will process all of the datasets in the subfolders. The script is as follows:
 
