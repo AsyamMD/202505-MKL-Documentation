@@ -45,6 +45,8 @@ If you are using WSL1, you can still follow the steps above, but we need to reve
 
 Since my background is nothing related to computer science, I do not really understand the difference between WSL1 and WSL2 deeply. But as for my experience in doing the same Shell scripting in the same directory, WSL2 take 110 minutes while WSL1 only take 60 minutes. So it almost 50% faster in WSL1. If you happen to work in the Windows directory, WSL2 will take longer time than WSL1. But if you work in the Linux directory, WSL2 will be faster than WSL1. So it is up to you to choose which one is better for you.
 
+The drawback of WSL1 is that it does not support GUI applications, so we cannot run *ncview* to visualize the NetCDF files. But we can still use *nco* and *cdo* to manipulate the NetCDF files. If you want to visualize the NetCDF files, you can switch back to WSL2 by enabling `Virtual Machine Platform` on the Windows Features setting, then type `wsl --set-version Ubuntu 2` on PowerShell. After that, you can open Ubuntu and continue the steps below.
+
 ## Visual Studio Code
 
 This step is not necessary for this research, but Visual Studio Code (VS Code) is a powerful tool. We can integrate WSL directory on VS Code, so that we could modify and run our code seamlessly. To install it, just search `VS Code` on Microsoft Store. After that we need to initiate it by typing `code .` on Ubuntu terminal.
