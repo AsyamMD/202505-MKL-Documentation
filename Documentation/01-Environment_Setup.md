@@ -37,6 +37,18 @@ curl -O https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
 bash ~/Anaconda3-2024.10-1-Linux-x86_64.sh
 ```
 
+In CDO, we can mask a region of the NetCDF file by the country using `cdo maskregion,dcw:${country}`, where `${country}` is the code of the country we want to mask. For example, if we want to mask Indonesia, we can use `cdo maskregion,dcw:ID`. The list of country codes can be found on the [DCW Website](https://www.soest.hawaii.edu/pwessel/dcw/).
+
+To set up the environment, we need to move to the home directory by typing `cd ~` on the Terminal. Then we need to create a new directory for keeping the DCW dataset, say `DCW`, by typing `mkdir DCW`. After that, we can move to the DCW directory by typing `cd DCW`. We can download the DCW dataset from the DCW Website by typing `wget ftp://ftp.soest.hawaii.edu/dcw/dcw-gmt-2.1.2.tar.gz`. This will download the DCW dataset in a compressed file format. After that, we need to extract the file by typing `tar -xvzf dcw-gmt-2.1.2.tar.gz`. This will extract the files in the current directory. We can check the files by typing `ls` on the Terminal.
+
+The last step is to declare the DCW directory as an environment variable, so that we can use it in the CDO command. To do this, we need to open the `.bashrc` file by typing `nano ~/.bashrc` on the Terminal. Then we need to add the following line at the end of the file:
+
+```bash
+export DCW=/home/your_username/DCW/dcw-gmt-2.1.2
+```
+
+Replace `your_username` with your actual username. After that, we need to save the file by pressing `CTRL + X`, then `Y`, and then `Enter`. Finally, we need to apply the changes by typing `source ~/.bashrc` on the Terminal.
+
 Feel free to explore through the Ubuntu to familiarize with the system!
 
 ### WSL1
